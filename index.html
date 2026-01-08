@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pixalara Career Hub | Exclusive Placement Platform</title>
+    <meta name="description" content="The official placement partner of Pixalara Growth School. Invite-only access for external aspirants.">
+    
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyOCIgZmlsbD0iIzEwYjk4MSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTUlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjI4MCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+UDwvdGV4dD48L3N2Zz4=" type="image/svg+xml">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        background: '#020617', 
+                        surface: '#0f172a',    
+                        border: '#1e293b',     
+                        primary: '#10b981',    
+                        text: {
+                            main: '#f8fafc',
+                            muted: '#94a3b8'
+                        }
+                    },
+                    animation: {
+                        'pop-up': 'popUp 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        popUp: {
+                            '0%': { transform: 'scale(0.95)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #020617; color: #f8fafc; }
+        /* Touch Action manipulation improves click delay on mobile */
+        a, button, input, label { touch-action: manipulation; }
+        
+        .hero-glow {
+            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, rgba(2, 6, 23, 0) 50%);
+        }
+        .glass-nav {
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .partner-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: grayscale(100%) opacity(0.8);
+            border: 1px solid transparent;
+        }
+        .partner-card:hover {
+            filter: grayscale(0%) opacity(1);
+            transform: translateY(-4px);
+            border-color: rgba(16, 185, 129, 0.4);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        .partner-img {
+            max-width: 85%;
+            max-height: 50%;
+            object-fit: contain;
+        }
+
+        .modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .modal.visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary selection:text-white flex flex-col min-h-screen">
+
+    <nav class="fixed w-full top-0 z-50 glass-nav transition-all">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
+            <div class="flex flex-col">
+                <span class="font-bold text-lg md:text-xl tracking-tight text-white">Pixalara</span>
+                <span class="text-[9px] md:text-[10px] font-mono text-primary uppercase tracking-widest">Career Hub</span>
+            </div>
+            
+            <div class="flex items-center gap-4 md:gap-6">
+                <span class="hidden md:block text-xs text-text-muted border-r border-border pr-6">
+                    Powered by <span class="text-white">Pixalara Growth School</span>
+                </span>
+                <a href="https://dashboard.pixalara.in/login" target="_blank" class="text-sm font-medium text-white hover:text-primary transition-colors flex items-center gap-1 py-2">
+                    Login <span aria-hidden="true">&rarr;</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-32 pb-16 md:pt-48 md:pb-32 px-4 md:px-6 hero-glow relative overflow-hidden">
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 mb-6 md:mb-8">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                <span class="text-[10px] md:text-xs font-semibold text-primary">Admin-Verified Profiles Only</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white mb-4 md:mb-6 leading-[1.1]">
+                From Learning <br class="hidden md:block" />
+                to <span class="text-primary">Earning.</span>
+            </h1>
+            
+            <p class="text-base md:text-xl text-text-muted max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed px-2">
+                The exclusive placement platform of Pixalara Growth School. 
+                We connect pre-vetted talent with top-tier global enterprises.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#partners" class="w-full sm:w-auto px-8 py-3.5 bg-white text-background font-bold rounded-lg hover:bg-slate-200 transition-all active:scale-95">
+                    View Partners
+                </a>
+                <a href="https://dashboard.pixalara.in/login" target="_blank" class="w-full sm:w-auto px-8 py-3.5 border border-border text-white font-medium rounded-lg hover:bg-surface transition-colors active:scale-95">
+                    Dashboard Login
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="border-y border-border bg-surface/50">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
+            <div class="flex flex-wrap justify-center md:justify-between items-center gap-4 md:gap-6 text-xs md:text-sm font-medium text-text-muted uppercase tracking-wider text-center">
+                <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4 md:w-5 md:h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Admin Vetted Profiles
+                </span>
+                <span class="hidden md:block text-border">|</span>
+                <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4 md:w-5 md:h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                    Tech & Non-Tech Roles
+                </span>
+                <span class="hidden md:block text-border">|</span>
+                <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4 md:w-5 md:h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                    Powered by Pixalara
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <section id="who-can-apply" class="py-16 md:py-24 px-4 md:px-6 max-w-6xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-bold text-white mb-8 md:mb-12 text-center">Access & Eligibility</h2>
+        
+        <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+            
+            <div class="relative group p-6 md:p-8 rounded-2xl bg-surface border border-primary/30 hover:border-primary transition-colors duration-300 flex flex-col">
+                <div class="absolute top-4 right-4 px-2 py-1 md:px-3 bg-primary/20 text-primary text-[10px] md:text-xs font-bold uppercase rounded-full tracking-wide">Priority Access</div>
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 md:mb-6">
+                    <svg class="w-5 h-5 md:w-6 md:h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /></svg>
+                </div>
+                <h3 class="text-lg md:text-xl font-semibold text-white mb-2">Growth School Students</h3>
+                <p class="text-sm md:text-base text-text-muted mb-6">For current students and alumni. Your profile is pre-activated.</p>
+                <a href="https://dashboard.pixalara.in/login" target="_blank" class="mt-auto inline-block w-full py-3 text-center rounded-lg bg-primary text-background font-bold hover:bg-emerald-400 transition-colors active:scale-95 text-sm md:text-base">
+                    Login to Dashboard
+                </a>
+            </div>
+
+            <div class="relative group p-6 md:p-8 rounded-2xl bg-surface border border-border hover:border-slate-500 transition-colors duration-300 flex flex-col">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-slate-800 rounded-lg flex items-center justify-center mb-4 md:mb-6">
+                    <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                </div>
+                <h3 class="text-lg md:text-xl font-semibold text-white mb-2">External Aspirants</h3>
+                <p class="text-sm md:text-base text-text-muted mb-6">Access is granted only after a preliminary admin examination.</p>
+                
+                <button onclick="openModal()" class="mt-auto inline-block w-full py-3 text-center rounded-lg border border-border text-white font-medium hover:bg-slate-800 transition-colors active:scale-95 text-sm md:text-base">
+                    Request Admin Screening
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="partners" class="py-16 md:py-24 px-4 md:px-6 bg-surface/30 border-y border-border">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-10 md:mb-16">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Our Hiring Partners</h2>
+                <p class="text-sm md:text-base text-text-muted max-w-2xl mx-auto">
+                    We work with industry leaders to provide placement opportunities for IT and Non-IT roles.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 items-center justify-items-center">
+                <div class="p-4 md:p-6 bg-white rounded-lg w-full flex items-center justify-center h-24 md:h-28 partner-card cursor-pointer">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgNTAiPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjM0IiBmaWxsPSIjMDAzM2EwIj5Db2duaXphbnQ8L3RleHQ+PC9zdmc+" alt="Cognizant" class="partner-img">
+                </div>
+                <div class="p-4 md:p-6 bg-white rounded-lg w-full flex items-center justify-center h-24 md:h-28 partner-card cursor-pointer">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgNTAiPjx0ZXh0IHg9IjEwMCIgeT0iMzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMzIiIGZpbGw9IiMwMDAiPmFjY2VudHVyZTwvdGV4dD48cGF0aCBkPSJNMTg1IDE1IEwxOTUgMjUgTDE4NSAzNSIgc3Ryb2tlPSIjYTEwMGZmIiBzdHJva2Utd2lkdGg9IjQiIGZpbGw9Im5vbmUiLz48L3N2Zz4=" alt="Accenture" class="partner-img">
+                </div>
+                <div class="p-4 md:p-6 bg-white rounded-lg w-full flex items-center justify-center h-24 md:h-28 partner-card cursor-pointer">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgNTAiPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiMzMzMiPkNPTkNFTlRSSVg8L3RleHQ+PC9zdmc+" alt="Concentrix" class="partner-img">
+                </div>
+                <div class="p-4 md:p-6 bg-white rounded-lg w-full flex items-center justify-center h-24 md:h-28 partner-card cursor-pointer">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgNTAiPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI4MDAiIGZvbnQtc2l6ZT0iMzIiIGZpbGw9IiMwMDk5OTkiIGxldHRlci1zcGFjaW5nPSIyIj5TSUVNRU5TPC90ZXh0Pjwvc3ZnPg==" alt="Siemens" class="partner-img">
+                </div>
+                <div class="p-4 md:p-6 bg-white rounded-lg w-full flex items-center justify-center h-24 md:h-28 partner-card cursor-pointer">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgNTAiPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjM2IiBmaWxsPSIjZDYwYjUyIj5hbG9yaWNhPC90ZXh0Pjwvc3ZnPg==" alt="Alorica" class="partner-img">
+                </div>
+                <div class="p-4 md:p-6 bg-white rounded-lg w-full flex items-center justify-center h-24 md:h-28 partner-card cursor-pointer">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgNTAiPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZvbnQtc2l6ZT0iNDAiIGZpbGw9IiMwZWE1ZTkiPkhHUzwvdGV4dD48L3N2Zz4=" alt="HGS" class="partner-img">
+                </div>
+                <div class="p-4 md:p-6 bg-white rounded-lg w-full flex items-center justify-center h-24 md:h-28 partner-card cursor-pointer">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgNTAiPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIzMiIgZmlsbD0iIzMzNDE1NSI+aUVuZXJnaXplcjwvdGV4dD48L3N2Zz4=" alt="iEnergizer" class="partner-img">
+                </div>
+                <div class="p-4 md:p-6 bg-white rounded-lg w-full flex items-center justify-center h-24 md:h-28 partner-card cursor-pointer">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgNTAiPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjIyIiBmaWxsPSIjMzMzIj5UZWxlcGVyZm9ybWFuY2U8L3RleHQ+PC9zdmc+" alt="Teleperformance" class="partner-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 md:py-24 px-4 md:px-6 max-w-6xl mx-auto">
+        <div class="mb-10 md:mb-12 text-center md:text-left">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">How it Works</h2>
+            <p class="text-sm md:text-base text-text-muted">A curated, verified process.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8 md:gap-12 relative">
+             <div class="hidden md:block absolute top-6 left-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent z-0"></div>
+            
+            <div class="relative z-10 bg-background p-4 md:p-0">
+                <span class="inline-block px-3 py-1 bg-surface border border-border rounded text-sm font-bold text-white mb-4">01</span>
+                <h3 class="text-lg md:text-xl font-semibold text-white mb-2">Admin Screening</h3>
+                <p class="text-sm text-text-muted leading-relaxed">
+                    External candidates must pass a preliminary exam. Upon passing, our admins manually create your profile.
+                </p>
+            </div>
+            <div class="relative z-10 bg-background p-4 md:p-0">
+                <span class="inline-block px-3 py-1 bg-surface border border-border rounded text-sm font-bold text-white mb-4">02</span>
+                <h3 class="text-lg md:text-xl font-semibold text-white mb-2">Dashboard Access</h3>
+                <p class="text-sm text-text-muted leading-relaxed">
+                    Login to <span class="text-primary">dashboard.pixalara.in</span>. Browse active openings from our partner network.
+                </div>
+            <div class="relative z-10 bg-background p-4 md:p-0">
+                <span class="inline-block px-3 py-1 bg-surface border border-border rounded text-sm font-bold text-white mb-4">03</span>
+                <h3 class="text-lg md:text-xl font-semibold text-white mb-2">Direct Placement</h3>
+                <p class="text-sm text-text-muted leading-relaxed">
+                    Shortlisted profiles are sent directly to hiring managers at companies like Accenture and Cognizant.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 md:py-20 px-6 text-center border-t border-border bg-black">
+        <h2 class="text-2xl md:text-3xl text-white font-bold mb-4">Ready to launch your career?</h2>
+        <p class="text-sm md:text-base text-text-muted mb-8">Join the ecosystem of growth.</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="https://dashboard.pixalara.in/login" target="_blank" class="px-10 py-3 bg-primary text-background font-bold rounded hover:bg-emerald-400 transition-colors w-full sm:w-auto">
+                Login
+            </a>
+            <button onclick="openModal()" class="px-10 py-3 border border-border text-white font-medium rounded hover:bg-surface transition-colors w-full sm:w-auto">
+                Contact Admin
+            </button>
+        </div>
+    </section>
+
+    <footer class="border-t border-border bg-black py-10 md:py-12 px-6">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div>
+                <p class="text-white font-bold tracking-tight">Pixalara Career Hub</p>
+                <p class="text-xs text-text-muted mt-2">An initiative by <span class="text-primary">Pixalara Growth School</span></p>
+                <p class="text-xs text-slate-600 mt-1">careerhub.pixalara.in</p>
+            </div>
+            
+            <div class="text-xs text-slate-500 space-y-2 text-left md:text-right w-full md:w-auto">
+                <p>&copy; 2026 Pixalara. All rights reserved.</p>
+                <div class="flex gap-4 justify-start md:justify-end mt-2">
+                    <a href="#" class="hover:text-white">Privacy</a>
+                    <a href="#" class="hover:text-white">Terms</a>
+                    <button onclick="openModal()" class="hover:text-white">Contact Admin</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="screeningModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/80 backdrop-blur-sm modal p-4">
+        <div class="bg-surface border border-border p-6 md:p-8 rounded-2xl w-11/12 md:w-full max-w-lg relative shadow-2xl max-h-[90vh] overflow-y-auto transform transition-all">
+            
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white z-50 transition-colors p-2">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div id="formContainer" class="animate-pop-up">
+                <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Request Screening</h3>
+                <p class="text-text-muted text-sm mb-6">Fill in your details for preliminary verification.</p>
+
+                <form id="screeningForm" class="space-y-4">
+                    
+                    <input type="hidden" name="access_key" value="3e6436b9-f489-4e04-b932-f77f54315327">
+                    <input type="hidden" name="subject" value="New Career Hub Screening Request">
+                    <input type="hidden" name="from_name" value="Pixalara Career Hub">
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Full Name <span class="text-red-500">*</span></label>
+                        <input type="text" name="name" id="name" required class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-2">Current Status <span class="text-red-500">*</span></label>
+                        <div class="flex flex-wrap gap-4 md:gap-6">
+                            <label class="flex items-center cursor-pointer group">
+                                <input type="radio" name="experience" value="Fresher" onchange="toggleExperience(false)" required class="mr-2 accent-primary h-4 w-4">
+                                <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Fresher</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer group">
+                                <input type="radio" name="experience" value="Experienced" onchange="toggleExperience(true)" required class="mr-2 accent-primary h-4 w-4">
+                                <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Experienced</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="experienceInput" class="hidden">
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Years of Experience <span class="text-red-500">*</span></label>
+                        <input type="number" name="years_experience" id="yearsExp" min="0" step="0.1" placeholder="e.g. 2.5" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-2">Gender <span class="text-red-500">*</span></label>
+                        <div class="flex flex-wrap gap-4 md:gap-6">
+                            <label class="flex items-center cursor-pointer group">
+                                <input type="radio" name="gender" value="Male" required class="mr-2 accent-primary h-4 w-4">
+                                <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Male</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer group">
+                                <input type="radio" name="gender" value="Female" required class="mr-2 accent-primary h-4 w-4">
+                                <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Female</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer group">
+                                <input type="radio" name="gender" value="Other" required class="mr-2 accent-primary h-4 w-4">
+                                <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Other</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Email ID <span class="text-red-500">*</span></label>
+                            <input type="email" name="email" id="email" required class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Phone Number <span class="text-red-500">*</span></label>
+                            <input type="tel" name="phone" id="phone" required class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Highest Education <span class="text-red-500">*</span></label>
+                            <input type="text" name="education" id="education" placeholder="e.g. B.Tech" required class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Pass Out Year <span class="text-red-500">*</span></label>
+                            <input type="number" name="passout_year" id="year" placeholder="2024" required class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Date of Birth <span class="text-red-500">*</span></label>
+                        <input type="date" name="dob" id="dob" min="1950-01-01" required class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-2">Preferrable Domains <span class="text-red-500">*</span></label>
+                        <div class="flex flex-wrap gap-4 md:gap-6 mt-1">
+                            <label class="flex items-center cursor-pointer group">
+                                <input type="radio" name="domain" value="IT" class="mr-2 accent-primary h-4 w-4" required>
+                                <span class="text-sm text-slate-300 group-hover:text-white transition-colors">IT</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer group">
+                                <input type="radio" name="domain" value="Non-IT" class="mr-2 accent-primary h-4 w-4">
+                                <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Non-IT</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer group">
+                                <input type="radio" name="domain" value="Both" class="mr-2 accent-primary h-4 w-4">
+                                <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Both</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="w-full py-3.5 mt-4 bg-primary hover:bg-emerald-400 text-background font-bold rounded-lg transition-all transform hover:-translate-y-1 shadow-lg shadow-emerald-500/20 active:scale-95">
+                        Submit Request
+                    </button>
+                </form>
+            </div>
+
+            <div id="successMessage" class="hidden flex flex-col items-center justify-center py-12 text-center animate-pop-up">
+                
+                <div class="relative w-24 h-24 mb-6 flex items-center justify-center">
+                    <div class="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse-slow"></div>
+                    <div class="relative w-full h-full bg-primary/10 rounded-full border border-primary/50 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-primary drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                </div>
+                
+                <h3 class="text-2xl md:text-3xl font-bold text-white mb-2 tracking-tight">Request Received!</h3>
+                <p class="text-text-muted text-sm max-w-xs mx-auto mb-8 leading-relaxed">
+                    Your details have been securely sent to our admin team. We will review your profile and contact you shortly.
+                </p>
+                
+                <button onclick="closeModal()" class="px-10 py-3 bg-surface border border-border text-white font-medium rounded-lg hover:bg-slate-800 transition-colors w-full">
+                    Done
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('screeningModal');
+        const experienceInputDiv = document.getElementById('experienceInput');
+        const yearsExpInput = document.getElementById('yearsExp');
+        const form = document.getElementById('screeningForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formContainer = document.getElementById('formContainer');
+        const successMessage = document.getElementById('successMessage');
+        const dobInput = document.getElementById('dob');
+
+        // Set max date for DOB to today
+        const today = new Date().toISOString().split('T')[0];
+        dobInput.setAttribute('max', today);
+
+        function openModal() {
+            formContainer.classList.remove('hidden');
+            successMessage.classList.add('hidden');
+            form.reset();
+            toggleExperience(false);
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.add('visible');
+            }, 10);
+        }
+
+        function closeModal() {
+            modal.classList.remove('visible');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        function toggleExperience(isExperienced) {
+            if (isExperienced) {
+                experienceInputDiv.classList.remove('hidden');
+                yearsExpInput.required = true;
+            } else {
+                experienceInputDiv.classList.add('hidden');
+                yearsExpInput.required = false;
+                yearsExpInput.value = ''; 
+            }
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = "Processing...";
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+            .then(async (response) => {
+                if (response.status == 200) {
+                    formContainer.style.opacity = '0';
+                    setTimeout(() => {
+                        formContainer.classList.add('hidden');
+                        successMessage.classList.remove('hidden');
+                        formContainer.style.opacity = '1';
+                    }, 300);
+                } else {
+                    console.log(response);
+                    alert("Something went wrong. Please try again.");
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                alert("Something went wrong. Please try again.");
+            })
+            .then(function() {
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+            });
+        });
+    </script>
+
+</body>
+</html>
