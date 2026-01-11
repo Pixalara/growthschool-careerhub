@@ -101,7 +101,7 @@
             
             <div class="flex flex-col leading-none select-none justify-center">
                 <span class="font-extrabold text-2xl md:text-3xl tracking-tight text-white">Pixalara</span>
-                <span class="text-[10px] md:text-xs font-bold text-primary uppercase tracking-[0.25em] ml-0.5 -mt-1">Career Hub</span>
+                <span class="text-[10px] md:text-xs font-bold text-primary uppercase tracking-[0.25em] ml-0.5 -mt-1 md:-mt-1.5">Career Hub</span>
             </div>
             
             <div class="flex items-center gap-4 md:gap-6">
@@ -284,16 +284,16 @@
     </section>
 
     <footer class="bg-black py-10 md:py-12 px-6">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center md:items-start gap-6 text-center md:text-left">
             <div>
                 <p class="text-white font-bold tracking-tight">Pixalara Career Hub</p>
                 <p class="text-xs text-text-muted mt-2">An initiative by <a href="https://pixalara.in" target="_blank" class="text-primary hover:text-emerald-400 hover:underline transition-colors">Pixalara Growth School</a></p>
                 <p class="text-xs text-slate-600 mt-1">careerhub.pixalara.in</p>
             </div>
             
-            <div class="text-xs text-slate-500 space-y-2 text-left md:text-right w-full md:w-auto">
+            <div class="text-xs text-slate-500 space-y-2 text-center md:text-right w-full md:w-auto">
                 <p>&copy; 2026 Pixalara. All rights reserved.</p>
-                <div class="flex gap-4 justify-start md:justify-end mt-2">
+                <div class="flex gap-4 justify-center md:justify-end mt-2">
                     <a href="#" class="hover:text-white">Privacy</a>
                     <a href="#" class="hover:text-white">Terms</a>
                     <button onclick="openModal()" class="hover:text-white">Contact Admin</button>
@@ -455,7 +455,6 @@
         const successMessage = document.getElementById('successMessage');
         const dobInput = document.getElementById('dob');
 
-        // Set max date for DOB to today
         const today = new Date().toISOString().split('T')[0];
         dobInput.setAttribute('max', today);
 
