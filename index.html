@@ -283,29 +283,34 @@
         </div>
     </section>
 
-    <footer class="bg-black py-10 md:py-12 px-6">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center md:items-start gap-6 text-center md:text-left">
-            <div>
-                <p class="text-white font-bold tracking-tight">Pixalara Career Hub</p>
-                <p class="text-xs text-text-muted mt-2">An initiative by <a href="https://pixalara.in" target="_blank" class="text-primary hover:text-emerald-400 hover:underline transition-colors">Pixalara Growth School</a></p>
-                <p class="text-xs text-slate-600 mt-1">careerhub.pixalara.in</p>
-            </div>
-            
-            <div class="text-xs text-slate-500 space-y-2 text-center md:text-right w-full md:w-auto">
-                <p>&copy; 2026 Pixalara. All rights reserved.</p>
-                <div class="flex gap-4 justify-center md:justify-end mt-2">
-                    <a href="#" class="hover:text-white">Privacy</a>
-                    <a href="#" class="hover:text-white">Terms</a>
-                    <button onclick="openModal()" class="hover:text-white">Contact Admin</button>
+    <footer class="bg-black py-12 px-6 border-t border-slate-900">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
+                <div class="text-center md:text-left">
+                    <p class="text-white font-bold text-lg tracking-tight mb-2">Pixalara Career Hub</p>
+                    <p class="text-sm text-slate-400">
+                        An initiative by 
+                        <a href="https://pixalara.in" target="_blank" class="text-primary hover:text-emerald-400 transition-colors">Pixalara Growth School</a>
+                    </p>
+                    <p class="text-xs text-slate-600 mt-1 font-mono">careerhub.pixalara.in</p>
+                </div>
+                
+                <div class="flex flex-col items-center md:items-end gap-4">
+                    <div class="flex gap-6 text-sm font-medium text-slate-400">
+                        <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                        <a href="#" class="hover:text-white transition-colors">Terms</a>
+                        <button onclick="openModal()" class="hover:text-white transition-colors">Contact Admin</button>
+                    </div>
+                    <p class="text-xs text-slate-600">&copy; 2026 Pixalara. All rights reserved.</p>
                 </div>
             </div>
-        </div>
 
-        <div class="max-w-6xl mx-auto mt-8 pt-8 border-t border-slate-900 text-center md:text-left">
-            <p class="text-[10px] text-slate-800 hover:text-slate-600 transition-colors uppercase tracking-wider leading-relaxed cursor-default">
-                Pixalara Career Hub follows an admin-curated screening model. <br class="hidden md:inline">
-                Profile approval and dashboard access are discretionary.
-            </p>
+            <div class="mt-12 pt-8 border-t border-slate-900/50 text-center">
+                <p class="text-[10px] uppercase tracking-widest text-slate-700 hover:text-slate-500 transition-colors cursor-default max-w-2xl mx-auto leading-relaxed">
+                    Pixalara Career Hub follows an admin-curated screening model. <br class="hidden sm:block" />
+                    Profile approval and dashboard access are discretionary.
+                </p>
+            </div>
         </div>
     </footer>
 
@@ -347,9 +352,25 @@
                         </div>
                     </div>
 
-                    <div id="experienceInput" class="hidden">
-                        <label class="block text-xs font-medium text-slate-400 mb-1">Years of Experience <span class="text-red-500">*</span></label>
-                        <input type="number" name="years_experience" id="yearsExp" min="0" step="0.1" placeholder="e.g. 2.5" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+                    <div id="experienceInput" class="hidden space-y-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Years of Experience <span class="text-red-500">*</span></label>
+                            <input type="number" name="years_experience" id="yearsExp" min="0" step="0.1" placeholder="e.g. 2.5" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-2">Domain <span class="text-red-500">*</span></label>
+                            <div class="flex flex-wrap gap-4 md:gap-6">
+                                <label class="flex items-center cursor-pointer group">
+                                    <input type="radio" name="domain" value="IT" class="mr-2 accent-primary h-4 w-4">
+                                    <span class="text-sm text-slate-300 group-hover:text-white transition-colors">IT</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer group">
+                                    <input type="radio" name="domain" value="Non-IT" class="mr-2 accent-primary h-4 w-4">
+                                    <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Non-IT</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
 
                     <div>
@@ -362,10 +383,6 @@
                             <label class="flex items-center cursor-pointer group">
                                 <input type="radio" name="gender" value="Female" required class="mr-2 accent-primary h-4 w-4">
                                 <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Female</span>
-                            </label>
-                            <label class="flex items-center cursor-pointer group">
-                                <input type="radio" name="gender" value="Other" required class="mr-2 accent-primary h-4 w-4">
-                                <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Other</span>
                             </label>
                         </div>
                     </div>
@@ -395,24 +412,6 @@
                     <div>
                         <label class="block text-xs font-medium text-slate-400 mb-1">Date of Birth <span class="text-red-500">*</span></label>
                         <input type="date" name="dob" id="dob" min="1950-01-01" required class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-2">Preferrable Domains <span class="text-red-500">*</span></label>
-                        <div class="flex flex-wrap gap-4 md:gap-6 mt-1">
-                            <label class="flex items-center cursor-pointer group">
-                                <input type="radio" name="domain" value="IT" class="mr-2 accent-primary h-4 w-4" required>
-                                <span class="text-sm text-slate-300 group-hover:text-white transition-colors">IT</span>
-                            </label>
-                            <label class="flex items-center cursor-pointer group">
-                                <input type="radio" name="domain" value="Non-IT" class="mr-2 accent-primary h-4 w-4">
-                                <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Non-IT</span>
-                            </label>
-                            <label class="flex items-center cursor-pointer group">
-                                <input type="radio" name="domain" value="Both" class="mr-2 accent-primary h-4 w-4">
-                                <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Both</span>
-                            </label>
-                        </div>
                     </div>
 
                     <button type="submit" id="submitBtn" class="w-full py-3.5 mt-4 bg-primary hover:bg-emerald-400 text-background font-bold rounded-lg transition-all transform hover:-translate-y-1 shadow-lg shadow-emerald-500/20 active:scale-95">
@@ -449,6 +448,7 @@
         const modal = document.getElementById('screeningModal');
         const experienceInputDiv = document.getElementById('experienceInput');
         const yearsExpInput = document.getElementById('yearsExp');
+        const domainRadios = document.getElementsByName('domain');
         const form = document.getElementById('screeningForm');
         const submitBtn = document.getElementById('submitBtn');
         const formContainer = document.getElementById('formContainer');
@@ -487,10 +487,19 @@
             if (isExperienced) {
                 experienceInputDiv.classList.remove('hidden');
                 yearsExpInput.required = true;
+                // Make all domain radios required
+                for (let radio of domainRadios) {
+                    radio.required = true;
+                }
             } else {
                 experienceInputDiv.classList.add('hidden');
                 yearsExpInput.required = false;
-                yearsExpInput.value = ''; 
+                yearsExpInput.value = '';
+                // Uncheck and make not required
+                for (let radio of domainRadios) {
+                    radio.required = false;
+                    radio.checked = false;
+                }
             }
         }
 
