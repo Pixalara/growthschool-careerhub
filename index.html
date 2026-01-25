@@ -6,7 +6,7 @@
     <title>Pixalara Career Hub | Exclusive Placement Platform</title>
     <meta name="description" content="The official placement partner of Pixalara Growth School. Invite-only access for external aspirants.">
     
-    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyOCIgZmlsbD0iIzEwYjk4MSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTUlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjI4MCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+UDwvdGV4dD48L3N2Zz4=" type="image/svg+xml">
+    <link rel="icon" href="public/logos/logo.png" type="image/png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,6 +14,8 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -25,15 +27,20 @@
                         background: '#020617', 
                         surface: '#0f172a',    
                         border: '#1e293b',     
-                        primary: '#10b981',    
+                        // Brand Gradient Colors
+                        brand: {
+                            pink: '#ec4899',   // Pink-500
+                            purple: '#8b5cf6', // Violet-500
+                            dark: '#6d28d9'    // Violet-700
+                        },
                         text: {
                             main: '#f8fafc',
                             muted: '#94a3b8'
                         }
                     },
                     animation: {
-                        'pop-up': 'popUp 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'pop-up': 'popUp 0.3s ease-out forwards',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         popUp: {
@@ -48,27 +55,33 @@
 
     <style>
         body { background-color: #020617; color: #f8fafc; }
-        /* Touch Action manipulation improves click delay on mobile */
+        
+        /* Selection color matches brand pink */
+        ::selection { background-color: #ec4899; color: white; }
+        
         a, button, input, label { touch-action: manipulation; }
         
+        /* Gradient Hero Glow */
         .hero-glow {
-            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, rgba(2, 6, 23, 0) 50%);
+            background: radial-gradient(circle at 50% 0%, rgba(236, 72, 153, 0.15) 0%, rgba(139, 92, 246, 0.10) 40%, rgba(2, 6, 23, 0) 70%);
         }
+        
         .glass-nav {
-            background: rgba(2, 6, 23, 0.85);
-            backdrop-filter: blur(12px);
+            background: rgba(2, 6, 23, 0.75);
+            backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         
         .partner-card {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            filter: grayscale(100%) opacity(0.8);
+            filter: grayscale(100%) opacity(0.7);
             border: 1px solid transparent;
         }
         .partner-card:hover {
             filter: grayscale(0%) opacity(1);
             transform: translateY(-4px);
-            border-color: rgba(16, 185, 129, 0.4);
+            /* Pink/Purple border on hover */
+            border-color: rgba(236, 72, 153, 0.4); 
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
         .partner-img {
@@ -79,117 +92,136 @@
             object-fit: contain;
         }
 
-        .modal {
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        .modal.hidden {
+        .modal-overlay {
             opacity: 0;
             visibility: hidden;
-            pointer-events: none;
+            transition: all 0.3s ease-in-out;
         }
-        .modal.visible {
+        .modal-overlay.open {
             opacity: 1;
             visibility: visible;
-            pointer-events: auto;
+        }
+
+        /* --- DATE INPUT FIXES --- */
+        /* 1. Force dark mode for the picker popup */
+        input[type="date"] {
+            color-scheme: dark;
+            position: relative; /* Required for touch fix */
+        }
+        /* 2. Make the icon white and fully opaque */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            opacity: 1;
+            cursor: pointer;
+            background-color: transparent;
+        }
+
+        /* Custom Gradient Classes */
+        .text-gradient-brand {
+            background: linear-gradient(to right, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .bg-gradient-brand {
+            background: linear-gradient(to right, #ec4899, #8b5cf6);
         }
     </style>
 </head>
-<body class="antialiased selection:bg-primary selection:text-white flex flex-col min-h-screen">
+<body class="antialiased flex flex-col min-h-screen">
 
     <nav class="fixed w-full top-0 z-50 glass-nav transition-all">
-        <div class="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 h-24 md:h-28 flex items-center justify-between">
             
-            <div class="flex flex-col leading-none select-none justify-center">
-                <span class="font-extrabold text-2xl md:text-3xl tracking-tight text-white">Pixalara</span>
-                <span class="text-[10px] md:text-xs font-bold text-primary uppercase tracking-[0.25em] ml-0.5 -mt-1 md:-mt-1.5">Career Hub</span>
+            <div class="flex items-center">
+                <img src="public/logos/logo.png" alt="Pixalara Career Hub" class="h-20 md:h-24 w-auto object-contain py-2">
             </div>
             
             <div class="flex items-center gap-4 md:gap-6">
                 <span class="hidden md:block text-xs text-text-muted border-r border-border pr-6">
-                    Powered by <a href="https://pixalara.in" target="_blank" class="text-white hover:text-primary transition-colors">Pixalara Growth School</a>
+                    Powered by <a href="https://pixalara.in" target="_blank" class="text-white hover:text-brand-pink transition-colors font-medium">Pixalara Growth School</a>
                 </span>
-                <a href="https://dashboard.pixalara.in/login" target="_blank" class="text-sm font-medium text-white hover:text-primary transition-colors flex items-center gap-1 py-2">
-                    Login <span aria-hidden="true">&rarr;</span>
+                <a href="https://dashboard.pixalara.in/login" target="_blank" class="text-sm font-semibold text-white bg-white/5 border border-white/10 px-6 py-3 rounded-full hover:bg-white/10 hover:border-white/20 transition-all flex items-center gap-1 group">
+                    Login <span aria-hidden="true" class="ml-1 group-hover:translate-x-0.5 transition-transform">&rarr;</span>
                 </a>
             </div>
         </div>
     </nav>
 
-    <header class="pt-24 pb-16 md:pt-32 md:pb-32 px-4 md:px-6 hero-glow relative overflow-hidden">
-        <div class="max-w-4xl mx-auto text-center relative z-10">
+    <header class="pt-36 pb-20 md:pt-48 md:pb-36 px-4 md:px-6 hero-glow relative overflow-hidden">
+        <div class="max-w-5xl mx-auto text-center relative z-10">
             
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 mb-6 md:mb-8">
-                <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-                <span class="text-[10px] md:text-xs font-semibold text-primary">Admin-Verified Profiles Only</span>
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-pink/30 bg-brand-pink/5 mb-8 backdrop-blur-sm">
+                <span class="w-1.5 h-1.5 rounded-full bg-brand-pink animate-pulse"></span>
+                <span class="text-[10px] md:text-xs font-bold text-brand-pink tracking-wide uppercase">Admin-Verified Profiles Only</span>
             </div>
 
-            <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white mb-4 leading-[1.1]">
-                Pixalara <span class="text-primary">Career Hub</span>
+            <h1 class="text-5xl sm:text-6xl md:text-8xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">
+                Pixalara <span class="text-gradient-brand">Career Hub</span>
             </h1>
             
-            <h2 class="text-xl md:text-2xl text-slate-200 font-medium mb-6">
-                A curated career placement platform.
+            <h2 class="text-xl md:text-2xl text-slate-300 font-medium mb-8 max-w-2xl mx-auto">
+                The exclusive placement gateway for top-tier talent.
             </h2>
             
-            <p class="text-base md:text-lg text-text-muted max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed px-2">
-                Profiles are reviewed and approved by our admin team. <br class="hidden md:block" />
-                Access is granted only after screening.
+            <p class="text-sm md:text-base text-slate-400 max-w-xl mx-auto mb-10 leading-relaxed">
+                Profiles are manually reviewed and approved by our admin team. <br class="hidden md:inline" />
+                Access is strictly invite-only after screening.
             </p>
             
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <button onclick="openModal()" class="w-full sm:w-auto px-10 py-4 bg-white text-background font-bold text-lg rounded-lg hover:bg-slate-200 transition-all active:scale-95 shadow-lg shadow-white/10">
+                <button onclick="openModal()" class="w-full sm:w-auto px-12 py-4 bg-gradient-brand text-white font-bold text-lg rounded-full hover:shadow-[0_0_35px_-5px_rgba(236,72,153,0.5)] transition-all active:scale-95 shadow-lg shadow-pink-900/30">
                     Request Screening
                 </button>
             </div>
         </div>
     </header>
 
-    <section class="border-y border-border bg-surface/50">
-        <div class="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
-            <div class="flex flex-wrap justify-center md:justify-between items-center gap-4 md:gap-6 text-xs md:text-sm font-medium text-text-muted uppercase tracking-wider text-center">
-                <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4 md:w-5 md:h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+    <section class="border-y border-border bg-surface/30 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 py-6">
+            <div class="flex flex-wrap justify-center md:justify-between items-center gap-6 text-xs md:text-sm font-semibold text-slate-400 uppercase tracking-widest text-center">
+                <span class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-brand-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     Admin Vetted Profiles
                 </span>
-                <span class="hidden md:block text-border">|</span>
-                <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4 md:w-5 md:h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                <span class="hidden md:block text-slate-800">|</span>
+                <span class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-brand-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
                     Tech & Non-Tech Roles
                 </span>
-                <span class="hidden md:block text-border">|</span>
-                <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4 md:w-5 md:h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                <span class="hidden md:block text-slate-800">|</span>
+                <span class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-brand-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                     Powered by Pixalara
                 </span>
             </div>
         </div>
     </section>
 
-    <section id="who-can-apply" class="py-16 md:py-24 px-4 md:px-6 max-w-6xl mx-auto">
-        <h2 class="text-2xl md:text-3xl font-bold text-white mb-8 md:mb-12 text-center">Access & Eligibility</h2>
+    <section id="who-can-apply" class="py-20 md:py-32 px-4 md:px-6 max-w-6xl mx-auto">
+        <h2 class="text-2xl md:text-4xl font-bold text-white mb-12 text-center">Eligibility Criteria</h2>
         
         <div class="grid md:grid-cols-2 gap-6 md:gap-8">
             
-            <div class="relative group p-6 md:p-8 rounded-2xl bg-surface border border-primary/30 hover:border-primary transition-colors duration-300 flex flex-col">
-                <div class="absolute top-4 right-4 px-2 py-1 md:px-3 bg-primary/20 text-primary text-[10px] md:text-xs font-bold uppercase rounded-full tracking-wide">Priority Access</div>
-                <div class="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 md:mb-6">
-                    <svg class="w-5 h-5 md:w-6 md:h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /></svg>
+            <div class="relative group p-8 rounded-3xl bg-surface border border-white/5 hover:border-brand-pink/30 transition-all duration-300 flex flex-col hover:bg-surface/80 shadow-2xl shadow-black/20">
+                <div class="absolute top-6 right-6 px-3 py-1 bg-brand-pink/10 text-brand-pink text-[10px] font-bold uppercase rounded-full tracking-wide border border-brand-pink/20">Priority</div>
+                <div class="w-14 h-14 bg-gradient-to-br from-brand-pink/20 to-transparent rounded-2xl flex items-center justify-center mb-6 border border-brand-pink/10">
+                    <svg class="w-7 h-7 text-brand-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /></svg>
                 </div>
-                <h3 class="text-lg md:text-xl font-semibold text-white mb-2">Growth School Students</h3>
-                <p class="text-sm md:text-base text-text-muted mb-6">For current students and alumni. Your profile is pre-activated.</p>
-                <a href="https://dashboard.pixalara.in/login" target="_blank" class="mt-auto inline-block w-full py-3 text-center rounded-lg bg-primary text-background font-bold hover:bg-emerald-400 transition-colors active:scale-95 text-sm md:text-base">
+                <h3 class="text-xl font-bold text-white mb-3">Growth School Students</h3>
+                <p class="text-sm text-slate-400 mb-8 leading-relaxed">For current students and alumni of Pixalara Growth School. Your profile is pre-verified.</p>
+                <a href="https://dashboard.pixalara.in/login" target="_blank" class="mt-auto inline-flex justify-center items-center w-full py-4 text-center rounded-xl bg-brand-pink/10 border border-brand-pink/20 text-white font-bold hover:bg-brand-pink hover:text-white transition-all active:scale-[0.98]">
                     Login to Dashboard
                 </a>
             </div>
 
-            <div class="relative group p-6 md:p-8 rounded-2xl bg-surface border border-border hover:border-slate-500 transition-colors duration-300 flex flex-col">
-                <div class="w-10 h-10 md:w-12 md:h-12 bg-slate-800 rounded-lg flex items-center justify-center mb-4 md:mb-6">
-                    <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+            <div class="relative group p-8 rounded-3xl bg-surface border border-white/5 hover:border-brand-purple/30 transition-all duration-300 flex flex-col hover:bg-surface/80 shadow-2xl shadow-black/20">
+                <div class="w-14 h-14 bg-gradient-to-br from-brand-purple/20 to-transparent rounded-2xl flex items-center justify-center mb-6 border border-brand-purple/10">
+                    <svg class="w-7 h-7 text-brand-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                 </div>
-                <h3 class="text-lg md:text-xl font-semibold text-white mb-2">External Aspirants</h3>
-                <p class="text-sm md:text-base text-text-muted mb-6">Access is granted only after an admin screening review. <br class="hidden md:block"> Approved candidates will receive login details via email.</p>
+                <h3 class="text-xl font-bold text-white mb-3">External Aspirants</h3>
+                <p class="text-sm text-slate-400 mb-8 leading-relaxed">Access is granted only after a strict admin screening review. Approved candidates will receive login details.</p>
                 
-                <button onclick="openModal()" class="mt-auto inline-block w-full py-3 text-center rounded-lg border border-border text-white font-medium hover:bg-slate-800 transition-colors active:scale-95 text-sm md:text-base">
+                <button onclick="openModal()" class="mt-auto inline-flex justify-center items-center w-full py-4 text-center rounded-xl bg-brand-purple/10 border border-brand-purple/20 text-white font-bold hover:bg-brand-purple hover:text-white transition-all active:scale-[0.98]">
                     Request Admin Screening
                 </button>
             </div>
@@ -197,87 +229,81 @@
         </div>
     </section>
 
-    <section id="partners" class="py-16 md:py-24 px-4 md:px-6 bg-surface/30 border-y border-border">
+    <section id="partners" class="py-20 md:py-24 px-4 md:px-6 bg-surface/30 border-y border-border">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-10 md:mb-16">
+            <div class="text-center mb-12 md:mb-16">
                 <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Our Hiring Network</h2>
-                <p class="text-sm md:text-base text-text-muted max-w-2xl mx-auto">
-                    We work with a limited set of pre-tied-up hiring partners. Opportunities are shared based on role requirements and availability.
+                <p class="text-sm md:text-base text-slate-400 max-w-2xl mx-auto">
+                    We work with a curated set of hiring partners. Opportunities are matched based on specific role requirements.
                 </p>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 items-center justify-items-center">
-                <div class="p-4 md:p-6 bg-white rounded-lg w-full flex items-center justify-center h-24 md:h-28 partner-card cursor-pointer">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 items-center justify-items-center">
+                <div class="p-6 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
                     <img src="public/logos/cognizant.png" alt="Cognizant" class="partner-img">
                 </div>
-                <div class="p-4 md:p-6 bg-white rounded-lg w-full flex items-center justify-center h-24 md:h-28 partner-card cursor-pointer">
+                <div class="p-6 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
                     <img src="public/logos/concentrix.png" alt="Concentrix" class="partner-img">
                 </div>
-                <div class="p-4 md:p-6 bg-white rounded-lg w-full flex items-center justify-center h-24 md:h-28 partner-card cursor-pointer">
+                <div class="p-6 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
                     <img src="public/logos/teleperformance.png" alt="Teleperformance" class="partner-img">
                 </div>
-                <div class="p-4 md:p-6 bg-white rounded-lg w-full flex items-center justify-center h-24 md:h-28 partner-card cursor-pointer">
+                <div class="p-6 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
                     <img src="public/logos/hindustan-computers.png" alt="HCL Tech" class="partner-img">
                 </div>
-                <div class="p-4 md:p-6 bg-white rounded-lg w-full flex items-center justify-center h-24 md:h-28 partner-card cursor-pointer">
+                <div class="p-6 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
                     <img src="public/logos/hinduja-global-solutions.png" alt="HGS" class="partner-img">
                 </div>
-                <div class="p-4 md:p-6 bg-white rounded-lg w-full flex items-center justify-center h-24 md:h-28 partner-card cursor-pointer">
+                <div class="p-6 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
                     <img src="public/logos/ienergizer.png" alt="iEnergizer" class="partner-img">
                 </div>
             </div>
             
-            <p class="mt-10 text-center text-xs text-slate-500 italic">
+            <p class="mt-12 text-center text-[10px] md:text-xs text-slate-600 italic tracking-wide">
               Pixalara Career Hub follows a controlled, invite-based screening model. Access is limited and approval-driven.
             </p>
         </div>
     </section>
 
-    <section class="py-16 md:py-24 px-4 md:px-6 max-w-6xl mx-auto">
-        <div class="mb-10 md:mb-12 text-center md:text-left">
-            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">How it Works</h2>
-            <p class="text-sm md:text-base text-text-muted">A curated, verified process.</p>
+    <section class="py-20 md:py-32 px-4 md:px-6 max-w-6xl mx-auto">
+        <div class="mb-12 md:mb-16 text-center md:text-left">
+            <h2 class="text-2xl md:text-4xl font-bold text-white mb-3">How it Works</h2>
+            <p class="text-slate-400">A rigorous, verification-first process.</p>
         </div>
-        <div class="grid md:grid-cols-3 gap-8 md:gap-12 relative">
-             <div class="hidden md:block absolute top-6 left-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent z-0"></div>
+        <div class="grid md:grid-cols-3 gap-8 relative">
+             <div class="hidden md:block absolute top-7 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent z-0"></div>
             
-            <div class="relative z-10 bg-background p-4 md:p-0">
-                <span class="inline-block px-3 py-1 bg-surface border border-border rounded text-sm font-bold text-white mb-4">01</span>
-                <h3 class="text-lg md:text-xl font-semibold text-white mb-2">
-                    Profile Submission & Verification
-                </h3>
-                <p class="text-sm text-text-muted leading-relaxed">
-                    Candidates submit structured profiles that are manually reviewed for authenticity, readiness, and role alignment. Low-signal or incomplete profiles are filtered out upfront.
+            <div class="relative z-10 bg-background pt-4 md:pt-0">
+                <div class="inline-flex items-center justify-center w-14 h-8 bg-surface border border-border rounded-lg text-sm font-bold text-white mb-6 shadow-lg shadow-black/50">01</div>
+                <h3 class="text-xl font-bold text-white mb-3">Profile Submission</h3>
+                <p class="text-sm text-slate-400 leading-relaxed pr-4">
+                    Candidates submit structured profiles. We manually review for authenticity, readiness, and role alignment.
                 </p>
             </div>
 
-            <div class="relative z-10 bg-background p-4 md:p-0">
-                <span class="inline-block px-3 py-1 bg-surface border border-border rounded text-sm font-bold text-white mb-4">02</span>
-                <h3 class="text-lg md:text-xl font-semibold text-white mb-2">
-                    Multi-Parameter Admin Evaluation
-                </h3>
-                <p class="text-sm text-text-muted leading-relaxed">
-                    Our admin panel evaluates candidates across communication skills, technical depth, role suitability, and placement readiness before granting approval.
+            <div class="relative z-10 bg-background pt-4 md:pt-0">
+                <div class="inline-flex items-center justify-center w-14 h-8 bg-surface border border-border rounded-lg text-sm font-bold text-white mb-6 shadow-lg shadow-black/50">02</div>
+                <h3 class="text-xl font-bold text-white mb-3">Admin Evaluation</h3>
+                <p class="text-sm text-slate-400 leading-relaxed pr-4">
+                    Our panel evaluates candidates on communication, technical depth, and placement readiness before granting access.
                 </p>
             </div>
 
-            <div class="relative z-10 bg-background p-4 md:p-0">
-                <span class="inline-block px-3 py-1 bg-surface border border-border rounded text-sm font-bold text-white mb-4">03</span>
-                <h3 class="text-lg md:text-xl font-semibold text-white mb-2">
-                    Curated Access & Opportunity Mapping
-                </h3>
-                <p class="text-sm text-text-muted leading-relaxed">
-                    Approved candidates receive access to curated opportunities mapped to their profile and hiring partner needs—ensuring relevance and higher interview conversion.
+            <div class="relative z-10 bg-background pt-4 md:pt-0">
+                <div class="inline-flex items-center justify-center w-14 h-8 bg-surface border border-border rounded-lg text-sm font-bold text-white mb-6 shadow-lg shadow-black/50">03</div>
+                <h3 class="text-xl font-bold text-white mb-3">Curated Access</h3>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                    Approved candidates receive access to opportunities mapped specifically to their profile, ensuring higher relevance.
                 </p>
             </div>
         </div>
     </section>
 
-    <section class="py-16 md:py-20 px-6 text-center bg-gradient-to-b from-background to-black">
-        <h2 class="text-2xl md:text-3xl text-white font-bold mb-4">Ready to take the next step?</h2>
-        <p class="text-sm md:text-base text-text-muted mb-8">Submit your profile for screening.</p>
+    <section class="py-24 px-6 text-center bg-gradient-to-b from-background via-surface/30 to-black border-t border-white/5">
+        <h2 class="text-3xl md:text-4xl text-white font-bold mb-4 tracking-tight">Ready to take the next step?</h2>
+        <p class="text-slate-400 mb-10">Submit your profile for administrative screening.</p>
         <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <button onclick="openModal()" class="px-10 py-3 bg-primary text-background font-bold rounded hover:bg-emerald-400 transition-colors w-full sm:w-auto shadow-lg shadow-emerald-500/20">
+            <button onclick="openModal()" class="px-12 py-4 bg-gradient-brand text-white font-bold text-lg rounded-full hover:shadow-[0_0_35px_-5px_rgba(236,72,153,0.5)] transition-all w-full sm:w-auto shadow-lg">
                 Request Screening
             </button>
         </div>
@@ -290,7 +316,7 @@
                     <p class="text-white font-bold text-lg tracking-tight mb-2">Pixalara Career Hub</p>
                     <p class="text-sm text-slate-400">
                         An initiative by 
-                        <a href="https://pixalara.in" target="_blank" class="text-primary hover:text-emerald-400 transition-colors">Pixalara Growth School</a>
+                        <a href="https://pixalara.in" target="_blank" class="text-brand-purple hover:text-brand-pink transition-colors">Pixalara Growth School</a>
                     </p>
                     <p class="text-xs text-slate-600 mt-1 font-mono">careerhub.pixalara.in</p>
                 </div>
@@ -314,59 +340,59 @@
         </div>
     </footer>
 
-    <div id="screeningModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/80 backdrop-blur-sm modal p-4">
-        <div class="bg-surface border border-border p-6 md:p-8 rounded-2xl w-11/12 md:w-full max-w-lg relative shadow-2xl max-h-[90vh] overflow-y-auto transform transition-all">
+    <div id="screeningModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/90 backdrop-blur-sm modal-overlay p-4">
+        <div class="bg-surface border border-white/10 p-6 md:p-8 rounded-3xl w-11/12 md:w-full max-w-lg relative shadow-2xl max-h-[90vh] overflow-y-auto transform transition-all border-t-4 border-t-brand-purple">
             
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white z-50 transition-colors p-2">
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button onclick="closeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white z-50 transition-colors p-2 bg-white/5 rounded-full hover:bg-white/10">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
 
             <div id="formContainer" class="animate-pop-up">
-                <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Request Screening</h3>
-                <p class="text-text-muted text-sm mb-6">Fill in your details for preliminary verification.</p>
+                <h3 class="text-2xl font-bold text-white mb-2">Request Screening</h3>
+                <p class="text-slate-400 text-sm mb-8">Fill in your details for preliminary verification.</p>
 
-                <form id="screeningForm" class="space-y-4">
+                <form id="screeningForm" class="space-y-5">
                     
                     <input type="hidden" name="access_key" value="3e6436b9-f489-4e04-b932-f77f54315327">
                     <input type="hidden" name="subject" value="New Career Hub Screening Request">
                     <input type="hidden" name="from_name" value="Pixalara Career Hub">
 
                     <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1">Full Name <span class="text-red-500">*</span></label>
-                        <input type="text" name="name" id="name" required class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+                        <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Full Name <span class="text-brand-pink">*</span></label>
+                        <input type="text" name="name" id="name" required class="w-full bg-background border border-slate-700 rounded-xl px-4 py-3 text-base text-white focus:border-brand-pink focus:ring-1 focus:ring-brand-pink/50 focus:outline-none transition-all placeholder:text-slate-700">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-2">Current Status <span class="text-red-500">*</span></label>
-                        <div class="flex flex-wrap gap-4 md:gap-6">
-                            <label class="flex items-center cursor-pointer group">
-                                <input type="radio" name="experience" value="Fresher" onchange="toggleExperience(false)" required class="mr-2 accent-primary h-4 w-4">
+                        <label class="block text-xs font-bold text-slate-400 mb-2.5 uppercase tracking-wide">Current Status <span class="text-brand-pink">*</span></label>
+                        <div class="flex flex-wrap gap-4">
+                            <label class="flex items-center cursor-pointer group bg-background border border-slate-700 px-4 py-2.5 rounded-lg hover:border-brand-pink/50 transition-colors">
+                                <input type="radio" name="experience" value="Fresher" onchange="toggleExperience(false)" required class="mr-3 accent-brand-pink h-4 w-4">
                                 <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Fresher</span>
                             </label>
-                            <label class="flex items-center cursor-pointer group">
-                                <input type="radio" name="experience" value="Experienced" onchange="toggleExperience(true)" required class="mr-2 accent-primary h-4 w-4">
+                            <label class="flex items-center cursor-pointer group bg-background border border-slate-700 px-4 py-2.5 rounded-lg hover:border-brand-pink/50 transition-colors">
+                                <input type="radio" name="experience" value="Experienced" onchange="toggleExperience(true)" required class="mr-3 accent-brand-pink h-4 w-4">
                                 <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Experienced</span>
                             </label>
                         </div>
                     </div>
 
-                    <div id="experienceInput" class="hidden space-y-4">
+                    <div id="experienceInput" class="hidden space-y-5 animate-pop-up">
                         <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Years of Experience <span class="text-red-500">*</span></label>
-                            <input type="number" name="years_experience" id="yearsExp" min="0" step="0.1" placeholder="e.g. 2.5" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+                            <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Years of Experience <span class="text-brand-pink">*</span></label>
+                            <input type="number" name="years_experience" id="yearsExp" min="0" step="0.1" placeholder="e.g. 2.5" class="w-full bg-background border border-slate-700 rounded-xl px-4 py-3 text-base text-white focus:border-brand-pink focus:outline-none focus:ring-1 focus:ring-brand-pink/50 transition-all">
                         </div>
                         
                         <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-2">Domain <span class="text-red-500">*</span></label>
-                            <div class="flex flex-wrap gap-4 md:gap-6">
-                                <label class="flex items-center cursor-pointer group">
-                                    <input type="radio" name="domain" value="IT" class="mr-2 accent-primary h-4 w-4">
+                            <label class="block text-xs font-bold text-slate-400 mb-2.5 uppercase tracking-wide">Domain <span class="text-brand-pink">*</span></label>
+                            <div class="flex flex-wrap gap-4">
+                                <label class="flex items-center cursor-pointer group bg-background border border-slate-700 px-4 py-2.5 rounded-lg hover:border-brand-pink/50 transition-colors">
+                                    <input type="radio" name="domain" value="IT" class="mr-3 accent-brand-pink h-4 w-4">
                                     <span class="text-sm text-slate-300 group-hover:text-white transition-colors">IT</span>
                                 </label>
-                                <label class="flex items-center cursor-pointer group">
-                                    <input type="radio" name="domain" value="Non-IT" class="mr-2 accent-primary h-4 w-4">
+                                <label class="flex items-center cursor-pointer group bg-background border border-slate-700 px-4 py-2.5 rounded-lg hover:border-brand-pink/50 transition-colors">
+                                    <input type="radio" name="domain" value="Non-IT" class="mr-3 accent-brand-pink h-4 w-4">
                                     <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Non-IT</span>
                                 </label>
                             </div>
@@ -374,74 +400,73 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-2">Gender <span class="text-red-500">*</span></label>
-                        <div class="flex flex-wrap gap-4 md:gap-6">
-                            <label class="flex items-center cursor-pointer group">
-                                <input type="radio" name="gender" value="Male" required class="mr-2 accent-primary h-4 w-4">
+                        <label class="block text-xs font-bold text-slate-400 mb-2.5 uppercase tracking-wide">Gender <span class="text-brand-pink">*</span></label>
+                        <div class="flex flex-wrap gap-4">
+                            <label class="flex items-center cursor-pointer group bg-background border border-slate-700 px-4 py-2.5 rounded-lg hover:border-brand-pink/50 transition-colors">
+                                <input type="radio" name="gender" value="Male" required class="mr-3 accent-brand-pink h-4 w-4">
                                 <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Male</span>
                             </label>
-                            <label class="flex items-center cursor-pointer group">
-                                <input type="radio" name="gender" value="Female" required class="mr-2 accent-primary h-4 w-4">
+                            <label class="flex items-center cursor-pointer group bg-background border border-slate-700 px-4 py-2.5 rounded-lg hover:border-brand-pink/50 transition-colors">
+                                <input type="radio" name="gender" value="Female" required class="mr-3 accent-brand-pink h-4 w-4">
                                 <span class="text-sm text-slate-300 group-hover:text-white transition-colors">Female</span>
                             </label>
                         </div>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Email ID <span class="text-red-500">*</span></label>
-                            <input type="email" name="email" id="email" required class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+                            <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Email ID <span class="text-brand-pink">*</span></label>
+                            <input type="email" name="email" id="email" required class="w-full bg-background border border-slate-700 rounded-xl px-4 py-3 text-base text-white focus:border-brand-pink focus:outline-none focus:ring-1 focus:ring-brand-pink/50 transition-all">
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Phone Number <span class="text-red-500">*</span></label>
-                            <input type="tel" name="phone" id="phone" required class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Highest Education <span class="text-red-500">*</span></label>
-                            <input type="text" name="education" id="education" placeholder="e.g. B.Tech" required class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Pass Out Year <span class="text-red-500">*</span></label>
-                            <input type="number" name="passout_year" id="year" placeholder="2024" required class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+                            <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Phone Number <span class="text-brand-pink">*</span></label>
+                            <input type="tel" name="phone" id="phone" required class="w-full bg-background border border-slate-700 rounded-xl px-4 py-3 text-base text-white focus:border-brand-pink focus:outline-none focus:ring-1 focus:ring-brand-pink/50 transition-all">
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1">Date of Birth <span class="text-red-500">*</span></label>
-                        <input type="date" name="dob" id="dob" min="1950-01-01" required class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+                    <div class="grid grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Highest Education <span class="text-brand-pink">*</span></label>
+                            <input type="text" name="education" id="education" placeholder="e.g. B.Tech" required class="w-full bg-background border border-slate-700 rounded-xl px-4 py-3 text-base text-white focus:border-brand-pink focus:outline-none focus:ring-1 focus:ring-brand-pink/50 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Pass Out Year <span class="text-brand-pink">*</span></label>
+                            <input type="number" name="passout_year" id="year" placeholder="2024" required class="w-full bg-background border border-slate-700 rounded-xl px-4 py-3 text-base text-white focus:border-brand-pink focus:outline-none focus:ring-1 focus:ring-brand-pink/50 transition-all">
+                        </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1">Resume Link (Google Drive / LinkedIn) <span class="text-red-500">*</span></label>
-                        <input type="url" name="resume_link" id="resumeLink" placeholder="https://drive.google.com/..." required class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all">
+                        <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Date of Birth <span class="text-brand-pink">*</span></label>
+                        <input type="date" name="dob" id="dob" required onclick="try{this.showPicker()}catch(e){}" class="w-full bg-background border border-slate-700 rounded-xl px-4 py-3 text-base text-white focus:border-brand-pink focus:outline-none focus:ring-1 focus:ring-brand-pink/50 transition-all cursor-pointer">
                     </div>
 
-                    <button type="submit" id="submitBtn" class="w-full py-3.5 mt-4 bg-primary hover:bg-emerald-400 text-background font-bold rounded-lg transition-all transform hover:-translate-y-1 shadow-lg shadow-emerald-500/20 active:scale-95">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Upload Resume (PDF/DOCX) <span class="text-brand-pink">*</span></label>
+                        <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx" required class="w-full bg-background border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-300 focus:border-brand-pink focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-brand-pink/20 file:text-brand-pink hover:file:bg-brand-pink/30 transition-all cursor-pointer">
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="w-full py-4 mt-2 bg-gradient-brand hover:shadow-lg hover:shadow-pink-500/20 text-white font-bold text-lg rounded-xl transition-all transform hover:-translate-y-1 active:scale-95 border border-white/10">
                         Submit Request
                     </button>
                 </form>
             </div>
 
             <div id="successMessage" class="hidden flex flex-col items-center justify-center py-12 text-center animate-pop-up">
-                
                 <div class="relative w-24 h-24 mb-6 flex items-center justify-center">
-                    <div class="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse-slow"></div>
-                    <div class="relative w-full h-full bg-primary/10 rounded-full border border-primary/50 flex items-center justify-center">
-                        <svg class="w-12 h-12 text-primary drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="absolute inset-0 bg-brand-pink/20 rounded-full blur-xl animate-pulse-slow"></div>
+                    <div class="relative w-full h-full bg-brand-pink/10 rounded-full border border-brand-pink/50 flex items-center justify-center">
+                        <svg class="w-10 h-10 text-brand-pink drop-shadow-[0_0_10px_rgba(236,72,153,0.8)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
                 </div>
                 
-                <h3 class="text-2xl md:text-3xl font-bold text-white mb-2 tracking-tight">Request Received!</h3>
-                <p class="text-text-muted text-sm max-w-xs mx-auto mb-8 leading-relaxed">
+                <h3 class="text-2xl font-bold text-white mb-3">Request Received!</h3>
+                <p class="text-slate-400 text-sm max-w-xs mx-auto mb-8 leading-relaxed">
                     Your details have been securely sent to our admin team. We will review your profile and contact you shortly.
                 </p>
                 
-                <button onclick="closeModal()" class="px-10 py-3 bg-surface border border-border text-white font-medium rounded-lg hover:bg-slate-800 transition-colors w-full">
+                <button onclick="closeModal()" class="px-10 py-3 bg-surface border border-white/10 text-white font-medium rounded-xl hover:bg-slate-800 transition-colors w-full">
                     Done
                 </button>
             </div>
@@ -450,6 +475,12 @@
     </div>
 
     <script>
+        const SUPABASE_URL = 'https://tttgxsnyawdyhlkfneok.supabase.co'; 
+        const SUPABASE_ANON_KEY = 'sb_publishable_LFka_eqU-4uBsLNCjmQ8bw_MM0gZ7zq'; 
+        const BUCKET_NAME = 'resumes';
+
+        const sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         const modal = document.getElementById('screeningModal');
         const experienceInputDiv = document.getElementById('experienceInput');
         const yearsExpInput = document.getElementById('yearsExp');
@@ -459,6 +490,7 @@
         const formContainer = document.getElementById('formContainer');
         const successMessage = document.getElementById('successMessage');
         const dobInput = document.getElementById('dob');
+        const resumeInput = document.getElementById('resumeUpload');
 
         const today = new Date().toISOString().split('T')[0];
         dobInput.setAttribute('max', today);
@@ -466,17 +498,18 @@
         function openModal() {
             formContainer.classList.remove('hidden');
             successMessage.classList.add('hidden');
+            formContainer.style.opacity = '1';
             form.reset();
-            toggleExperience(false);
+            toggleExperience(false); 
 
             modal.classList.remove('hidden');
             setTimeout(() => {
-                modal.classList.add('visible');
+                modal.classList.add('open');
             }, 10);
         }
 
         function closeModal() {
-            modal.classList.remove('visible');
+            modal.classList.remove('open');
             setTimeout(() => {
                 modal.classList.add('hidden');
             }, 300);
@@ -492,7 +525,6 @@
             if (isExperienced) {
                 experienceInputDiv.classList.remove('hidden');
                 yearsExpInput.required = true;
-                // Make all domain radios required
                 for (let radio of domainRadios) {
                     radio.required = true;
                 }
@@ -500,7 +532,6 @@
                 experienceInputDiv.classList.add('hidden');
                 yearsExpInput.required = false;
                 yearsExpInput.value = '';
-                // Uncheck and make not required
                 for (let radio of domainRadios) {
                     radio.required = false;
                     radio.checked = false;
@@ -508,27 +539,51 @@
             }
         }
 
-        // REVERTED TO JSON SUBMISSION
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
-            const formData = new FormData(form);
-            const object = Object.fromEntries(formData);
-            const json = JSON.stringify(object);
 
             const originalText = submitBtn.innerText;
-            submitBtn.innerText = "Processing...";
+            submitBtn.innerText = "Uploading Resume...";
             submitBtn.disabled = true;
             submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
 
-            fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: json
-            })
-            .then(async (response) => {
+            try {
+                const file = resumeInput.files[0];
+                if (!file) throw new Error("Please select a resume file.");
+
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+                
+                const { data: uploadData, error: uploadError } = await sbClient
+                    .storage
+                    .from(BUCKET_NAME)
+                    .upload(fileName, file);
+
+                if (uploadError) throw uploadError;
+
+                const { data: { publicUrl } } = sbClient
+                    .storage
+                    .from(BUCKET_NAME)
+                    .getPublicUrl(fileName);
+
+                submitBtn.innerText = "Submitting Form...";
+
+                const formData = new FormData(form);
+                const object = Object.fromEntries(formData);
+                
+                object['resume_url'] = publicUrl;
+                
+                const json = JSON.stringify(object);
+
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: json
+                });
+
                 if (response.status == 200) {
                     formContainer.style.opacity = '0';
                     setTimeout(() => {
@@ -538,18 +593,17 @@
                     }, 300);
                 } else {
                     console.log(response);
-                    alert("Something went wrong. Please try again.");
+                    alert("Form submission failed. Please try again.");
                 }
-            })
-            .catch(error => {
-                console.log(error);
-                alert("Something went wrong. Please try again.");
-            })
-            .then(function() {
+
+            } catch (error) {
+                console.error(error);
+                alert("Error: " + error.message);
+            } finally {
                 submitBtn.innerText = originalText;
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
-            });
+            }
         });
     </script>
 
