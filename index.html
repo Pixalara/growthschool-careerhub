@@ -84,9 +84,12 @@
             border-color: rgba(236, 72, 153, 0.4); 
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
+        
+        /* --- LOGO SIZING FIX --- */
         .partner-img {
-            max-width: 80%;
-            max-height: 60%;
+            /* Relaxed constraints */
+            max-width: 90%; 
+            max-height: 85%; 
             width: auto;
             height: auto;
             object-fit: contain;
@@ -103,12 +106,10 @@
         }
 
         /* --- DATE INPUT FIXES --- */
-        /* 1. Force dark mode for the picker popup */
         input[type="date"] {
             color-scheme: dark;
-            position: relative; /* Required for touch fix */
+            position: relative; 
         }
-        /* 2. Make the icon white and fully opaque */
         input[type="date"]::-webkit-calendar-picker-indicator {
             filter: invert(1);
             opacity: 1;
@@ -238,24 +239,30 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 items-center justify-items-center">
-                <div class="p-6 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 items-center justify-items-center">
+                <div class="p-4 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
                     <img src="public/logos/cognizant.png" alt="Cognizant" class="partner-img">
                 </div>
-                <div class="p-6 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
+                <div class="p-4 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
                     <img src="public/logos/concentrix.png" alt="Concentrix" class="partner-img">
                 </div>
-                <div class="p-6 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
-                    <img src="public/logos/teleperformance.png" alt="Teleperformance" class="partner-img">
+                <div class="p-4 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
+                    <img src="public/logos/infosys.png" alt="Infosys" class="partner-img transform scale-125">
                 </div>
-                <div class="p-6 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
+                <div class="p-4 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
+                    <img src="public/logos/capgemini.png" alt="Capgemini" class="partner-img transform scale-125">
+                </div>
+                <div class="p-4 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
                     <img src="public/logos/hindustan-computers.png" alt="HCL Tech" class="partner-img">
                 </div>
-                <div class="p-6 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
+                <div class="p-4 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
                     <img src="public/logos/hinduja-global-solutions.png" alt="HGS" class="partner-img">
                 </div>
-                <div class="p-6 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
+                <div class="p-4 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
                     <img src="public/logos/ienergizer.png" alt="iEnergizer" class="partner-img">
+                </div>
+                <div class="p-4 bg-white rounded-xl w-full flex items-center justify-center h-28 partner-card cursor-default">
+                    <img src="public/logos/alorica.png" alt="Alorica" class="partner-img">
                 </div>
             </div>
             
@@ -452,21 +459,22 @@
             </div>
 
             <div id="successMessage" class="hidden flex flex-col items-center justify-center py-12 text-center animate-pop-up">
+                
                 <div class="relative w-24 h-24 mb-6 flex items-center justify-center">
                     <div class="absolute inset-0 bg-brand-pink/20 rounded-full blur-xl animate-pulse-slow"></div>
                     <div class="relative w-full h-full bg-brand-pink/10 rounded-full border border-brand-pink/50 flex items-center justify-center">
-                        <svg class="w-10 h-10 text-brand-pink drop-shadow-[0_0_10px_rgba(236,72,153,0.8)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg class="w-12 h-12 text-brand-pink drop-shadow-[0_0_10px_rgba(236,72,153,0.8)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
                 </div>
                 
-                <h3 class="text-2xl font-bold text-white mb-3">Request Received!</h3>
-                <p class="text-slate-400 text-sm max-w-xs mx-auto mb-8 leading-relaxed">
+                <h3 class="text-2xl md:text-3xl font-bold text-white mb-2 tracking-tight">Request Received!</h3>
+                <p class="text-text-muted text-sm max-w-xs mx-auto mb-8 leading-relaxed">
                     Your details have been securely sent to our admin team. We will review your profile and contact you shortly.
                 </p>
                 
-                <button onclick="closeModal()" class="px-10 py-3 bg-surface border border-white/10 text-white font-medium rounded-xl hover:bg-slate-800 transition-colors w-full">
+                <button onclick="closeModal()" class="px-10 py-3 bg-surface border border-border text-white font-medium rounded-lg hover:bg-slate-800 transition-colors w-full">
                     Done
                 </button>
             </div>
@@ -500,7 +508,7 @@
             successMessage.classList.add('hidden');
             formContainer.style.opacity = '1';
             form.reset();
-            toggleExperience(false); 
+            toggleExperience(false);
 
             modal.classList.remove('hidden');
             setTimeout(() => {
@@ -608,5 +616,4 @@
     </script>
 
 </body>
-
 </html>
